@@ -1,0 +1,488 @@
+/* ── 픽셀 폰트 ── */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* ── 리셋 & 루트 ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f;
+  --panel: #0f0f1a;
+  --border: #2a2a4a;
+  --accent: #7c3aed;
+  --accent2: #a855f7;
+  --text: #c8c8e8;
+  --dim: #5a5a7a;
+  --green: #4ade80;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --font: 'Press Start 2P', monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── 루트 레이아웃 ── */
+.game-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  position: relative;
+}
+
+/* ── 빗방울 ── */
+.rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.raindrop {
+  position: absolute;
+  top: -20px;
+  width: 1px;
+  height: 18px;
+  background: linear-gradient(to bottom, transparent, #6366f1aa);
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh); }
+}
+
+/* ── BGM 버튼 ── */
+.bgm-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  background: var(--panel);
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-size: 20px;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  image-rendering: pixelated;
+  transition: border-color 0.2s;
+}
+.bgm-btn:hover { border-color: var(--accent2); }
+
+/* ── 빡침 게이지 ── */
+.anger-bar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--panel);
+  border: 2px solid var(--red);
+  padding: 8px 14px;
+  font-size: 10px;
+  white-space: nowrap;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(-50%); }
+  25% { transform: translateX(calc(-50% - 4px)); }
+  75% { transform: translateX(calc(-50% + 4px)); }
+}
+
+.anger-label { color: var(--red); }
+
+.anger-track {
+  width: 120px;
+  height: 10px;
+  background: #1a0a0a;
+  border: 1px solid var(--red);
+}
+
+.anger-fill {
+  height: 100%;
+  background: linear-gradient(to right, #dc2626, #f87171);
+  transition: width 0.5s ease;
+  image-rendering: pixelated;
+}
+
+.anger-value { color: var(--yellow); }
+
+/* ── 게임 윈도우 ── */
+.game-window {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 680px;
+  background: var(--panel);
+  border: 3px solid var(--border);
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 40px #7c3aed44,
+    inset 0 0 60px #00000088;
+  image-rendering: pixelated;
+}
+
+/* ── 타이틀바 ── */
+.window-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #1a0a2e;
+  border-bottom: 2px solid var(--border);
+}
+
+.titlebar-dots {
+  display: flex;
+  gap: 6px;
+}
+.titlebar-dots span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--dim);
+}
+.titlebar-dots span:nth-child(1) { border-color: var(--red); background: #3a0a0a; }
+.titlebar-dots span:nth-child(2) { border-color: var(--yellow); background: #2a1a00; }
+.titlebar-dots span:nth-child(3) { border-color: var(--green); background: #0a1a0a; }
+
+.titlebar-title {
+  font-size: 12px;
+  color: var(--accent2);
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px var(--accent);
+  flex: 1;
+  text-align: center;
+}
+
+/* ── 윈도우 바디 ── */
+.window-body {
+  padding: 24px 20px;
+  min-height: 320px;
+}
+
+/* ── 씬 헤더 ── */
+.scene-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.scene-tag {
+  font-size: 10px;
+  color: var(--accent2);
+  text-shadow: 0 0 6px var(--accent);
+}
+
+.scene-location {
+  font-size: 10px;
+  color: var(--dim);
+}
+
+/* ── 텍스트 박스 ── */
+.text-box {
+  background: #07070f;
+  border: 2px solid var(--border);
+  padding: 18px;
+  margin-bottom: 20px;
+  min-height: 140px;
+  position: relative;
+}
+
+.text-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    #ffffff04 2px,
+    #ffffff04 4px
+  );
+  pointer-events: none;
+}
+
+.story-text {
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 2.6;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+/* ── 커서 ── */
+.cursor {
+  animation: blink 0.7s step-end infinite;
+  color: var(--accent2);
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ── 시작 화면 ── */
+.start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  gap: 24px;
+  cursor: pointer;
+}
+
+.start-title {
+  font-size: 32px;
+  color: var(--accent2);
+  text-align: center;
+  line-height: 1.6;
+  text-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent);
+  animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.4; }
+  97% { opacity: 1; }
+  98% { opacity: 0.2; }
+  99% { opacity: 1; }
+}
+
+.start-sub {
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+
+.start-touch {
+  font-size: 14px;
+  color: var(--accent2);
+  animation: pulse-glow 1.2s ease-in-out infinite;
+  letter-spacing: 2px;
+}
+
+/* ── 선택하기 버튼 ── */
+.start-choice-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.start-choice-btn {
+  background: transparent;
+  border: 2px solid var(--accent2);
+  color: var(--accent2);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 14px 32px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  animation: pulse-glow 1.2s ease-in-out infinite;
+  transition: background 0.15s, color 0.15s;
+}
+
+.start-choice-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 20px var(--accent);
+  animation: none;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 6px var(--accent2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 22px var(--accent2), 0 0 40px var(--accent);
+    transform: scale(1.04);
+  }
+}
+
+/* ── 선택지 등장 애니메이션 ── */
+.choices-enter {
+  animation: slideUp 0.35s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 선택지 ── */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.choice-btn {
+  background: #0a0a18;
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 2.4;
+  padding: 18px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.choice-btn pre {
+  font-family: inherit;
+  font-size: inherit;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.choice-btn::before {
+  content: '▶';
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--choice-color, var(--accent2));
+  transition: left 0.15s;
+  font-size: 10px;
+}
+
+.choice-btn:hover {
+  border-color: var(--choice-color, var(--accent2));
+  background: #12122a;
+  padding-left: 28px;
+  color: var(--choice-color, var(--text));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--choice-color, var(--accent)) 30%, transparent);
+}
+
+.choice-btn:hover::before {
+  left: 10px;
+}
+
+.choice-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── 푸터 ── */
+.window-footer {
+  padding: 10px 14px;
+  border-top: 2px solid var(--border);
+  text-align: center;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 1px;
+  background: #0a0a14;
+}
+
+/* ── 모달 ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000000cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+}
+
+.modal-box {
+  background: var(--panel);
+  border: 3px solid var(--accent);
+  max-width: 480px;
+  width: 100%;
+  padding: 32px 28px;
+  text-align: center;
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 60px var(--accent);
+  animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+}
+
+.modal-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.modal-title {
+  font-size: 14px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.modal-text {
+  font-size: 14px;
+  line-height: 2.6;
+  color: var(--text);
+  min-height: 80px;
+  text-align: left;
+  background: #07070f;
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.modal-close {
+  background: transparent;
+  border: 2px solid var(--accent2);
+  color: var(--accent2);
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 10px 24px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.15s;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-close:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 16px var(--accent);
+}
+
+/* ── 반응형 ── */
+@media (max-width: 480px) {
+  .story-text { font-size: 12px; }
+  .choice-btn { font-size: 11px; }
+  .window-body { padding: 16px 12px; }
+  .anger-bar { font-size: 8px; }
+  .anger-track { width: 80px; }
+}
