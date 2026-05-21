@@ -11,7 +11,7 @@
   --accent: #7c3aed;
   --accent2: #a855f7;
   --text: #c8c8e8;
-  --dim: #5a5a7a;
+  --dim: #73738b;
   --green: #4ade80;
   --red: #f87171;
   --yellow: #fbbf24;
@@ -244,13 +244,14 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 280px;
-  gap: 24px;
+  min-height: 320px;
+  gap: 28px;
   cursor: pointer;
+  text-align: center;
 }
 
 .start-title {
-  font-size: 32px;
+  font-size: 36px;
   color: var(--accent2);
   text-align: center;
   line-height: 1.6;
@@ -267,16 +268,22 @@ body {
 }
 
 .start-sub {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--dim);
   letter-spacing: 1px;
+  text-align: center;
 }
 
 .start-touch {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--accent2);
   animation: pulse-glow 1.2s ease-in-out infinite;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  border: 2px solid var(--accent2);
+  padding: 18px;
+  width: 70%;
+  text-align: center;
+  box-shadow: 0 0 12px var(--accent);
 }
 
 /* ── 선택하기 버튼 ── */

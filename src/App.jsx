@@ -19,7 +19,7 @@ const CHOICES = [
   {
     id: 2,
     label: '② 집에 있는 사람은 알빠노!! 뭐하러 신경씀?ㅋㅋ\n개무시한다',
-    result: '그럴줄 알았습니다.\n당신은 그런 사람입니다.\n\n집에 있는 사람의 빡침이\n20000 증가하였습니다.',
+    result: '그럴줄 알았습니다.\n당신은 그런 사람입니다.\n\n집에 있는 사람의 빡침이\n20000 증가하였습니다. 두고두고 복수할 것입니다.',
     icon: '💀',
     color: '#f87171',
   },
@@ -162,7 +162,10 @@ export default function App() {
   }, [introDone, phase])
 
   const handleStart = () => {
-    audioRef.current?.play()
+    if (audioRef.current) {
+      audioRef.current.volume = 0.7
+      audioRef.current.play()
+    }
     setPhase('intro')
   }
 
@@ -210,7 +213,7 @@ export default function App() {
           {/* 시작 화면 */}
           {phase === 'start' && (
             <div className="start-screen" onClick={handleStart}>
-              <div className="start-title">REVENGE<br />.EXE</div>
+              <div className="start-title">THE<br />SILENCE</div>
               <div className="start-sub">실화를 바탕으로 한 이야기</div>
               <div className="start-touch">▶ 터치하여 시작</div>
             </div>
