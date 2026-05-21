@@ -6,20 +6,20 @@ import './App.css'
 const BGM_SRC = '/The_Ticking_Drive.mp3'
 
 // ─── 게임 데이터 ─────────────────────────────────────────────
-const STORY = `당신은 늦은 밤 강남역에서\n혼자 또는 다른 정체모를 사람과\n식사를 마쳤습니다.\n\n비가 오고 발목이 아픕니다.\n\n당신의 선택은?`
+const STORY = `당신은 늦은 밤 강남역에서\n혼자 또는 다른 정체모를 사람과\n식사를 마쳤습니다.\n비가 오고 발목이 아픕니다.\n\n당신의 선택은?`
 
 const CHOICES = [
   {
     id: 1,
-    label: '① 집에 있는 사람한테 누구랑 밥먹는지 뭘 먹는지 어디서 잘건지 하나하나 친절하게 전달한다',
-    result: '거짓말 하지마십시오.\n당신은 그 선택을 하지 않았습니다.\n\n후회해도 늦었습니다.',
+    label: '① 집에 있는 사람한테 누구랑 밥먹는지\n메뉴는 뭔지, 어디서 잘건지 하나하나 친절하게 전달한다',
+    result: '거짓말 하지마십시오.\n당신은 그 선택을 하지 않았습니다.\n후회해도 늦었습니다.',
     icon: '📱',
     color: '#4ade80',
   },
   {
     id: 2,
-    label: '② 집에 있는 사람은 알빠노!! 뭐하러 신경씀?ㅋㅋ\n개무시한다',
-    result: '그럴줄 알았습니다.\n당신은 그런 사람입니다.\n\n집에 있는 사람의 빡침이\n20000 증가하였습니다. 두고두고 복수할 것입니다.',
+    label: '② 집에 있는 사람은 알빠노!!\n뭐하러 신경씀?ㅋㅋ 개무시한다',
+    result: '그럴줄 알았습니다.\n당신은 그런 사람입니다.\n집에 있는 사람의 빡침이\n20000 증가하였습니다. 두고두고 복수할 것입니다.',
     icon: '💀',
     color: '#f87171',
   },
@@ -163,7 +163,7 @@ export default function App() {
 
   const handleStart = () => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.7
+      audioRef.current.volume = 0.5
       audioRef.current.play()
     }
     setPhase('intro')
